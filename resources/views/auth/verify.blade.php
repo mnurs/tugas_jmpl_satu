@@ -1,30 +1,32 @@
-@extends('layouts.app')
-
-@section('content')
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Login Form | CodingLab</title> -->
+    <link rel="stylesheet" href="{{asset('css/register.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+  </head>
+  <body>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7" style="margin-top: 2%">
-                <div class="box">
-                    <h3 class="box-title" style="padding: 2%">Verify Your Email Address</h3>
-
-                    <div class="box-body">
-                        @if (session('resent'))
-                            <div class="alert alert-success" role="alert">A fresh verification link has been sent to
-                                your email address
-                            </div>
-                        @endif
-                        <p>Before proceeding, please check your email for a verification link.If you did not receive
-                            the email,</p>
-                            <a href="#"
-                               onclick="event.preventDefault(); document.getElementById('resend-form').submit();">
-                                click here to request another.
-                            </a>
-                            <form id="resend-form" action="{{ route('verification.resend') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div class="wrapper">
+        <div class="title"><center>Verify Your <br> Email Address</center></div>
+        <form action="{{url('verifikasi')}}" id="resend-form"  method="POST" >
+            @csrf
+          <div class="row">
+            <p>Before proceeding, please check your email for a verification link.If you did not receive the email,</p>
+          </div>  
+          <div class="row"> 
+          </div>  
+          <div class="row button"> 
+            <input type="hidden" name="id" value="{{request()->route('id')}}">
+            <input type="submit" value="Verifikasi"  onclick="event.preventDefault(); document.getElementById('resend-form').submit();"> 
+          </div> 
+          <div class="signup-link"><a href="{{ url('login') }}">I already have a membership</a></div>
+        </form>
+      </div>
     </div>
-@endsection
+
+  </body>
+</html>
