@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/auth/redirect', 'App\Http\Controllers\Auth\LoginController@redirectToProvider');
+Route::get('/auth/callback', 'App\Http\Controllers\Auth\LoginController@handleProviderCallback');
+Route::get('send-mail', [App\Http\Controllers\MailController::class, 'index']);

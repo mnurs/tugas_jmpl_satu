@@ -6,10 +6,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "anhskohbo/no-captcha": "^3.5",
+        "doctrine/dbal": "~2.3",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
+        "infyomlabs/adminlte-templates": "^5.0",
+        "infyomlabs/laravel-generator": "^5.0",
+        "infyomlabs/laravel-ui-adminlte": "^5.1",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
+        "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.7"
     },
     "require-dev": {
