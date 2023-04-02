@@ -1,118 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }} | Registration Page</title>
-
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-          integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-          crossorigin="anonymous"/>
-
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
-</head>
-<body class="hold-transition register-page">
-<div class="register-box">
-    <div class="register-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Login Form | CodingLab</title> -->
+    <link rel="stylesheet" href="{{asset('css/register.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Register Form</span></div>
+        <form method="post" action="{{ url('register') }}">
+            {{ csrf_field() }}
+          <div class="row">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="FullName" name="name" required  oninvalid="this.setCustomValidity('Enter FullName Here')" oninput="setCustomValidity('')"> 
+          </div>
+          <div class="row">
+            <i class="fas fa-envelope"></i>
+            <input type="email" placeholder="Email" name="email" required  oninvalid="this.setCustomValidity('Enter Email Here')" oninput="setCustomValidity('')">
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Password" name="password" required   oninvalid="this.setCustomValidity('Enter Password Here')" oninput="setCustomValidity('')">
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="new_password" placeholder="Retype Password" name="password_confirmation" required oninvalid="this.setCustomValidity('Enter Retype Password  Here')" oninput="setCustomValidity('')">
+          </div> 
+          <div class="row button">
+            <input type="submit" value="Register">
+          </div>
+          <div class="row google">
+            <input type="button" value="Google" onclick="register()">
+          </div>
+          <div class="signup-link"><a href="{{ url('login') }}">I already have a membership</a></div>
+          <div class="message-link">@if(isset($msg)){{$msg}}@endif</a></div>
+        </form>
+      </div>
     </div>
 
-    <div class="card">
-        <div class="card-body register-card-body">
-            <p class="login-box-msg">Register a new membership</p>
+  </body>
+  <script>
+    var myPass = document.getElementById("password"); 
+    var myNewPass = document.getElementById("new_password"); 
+     
+    // When the user clicks outside of the password field, hide the message box
+    myNewPass.onblur = function() {
+        if (myPass.value != myNewPass.value) {
+            alert("Passwords are not the same");
+        } 
+    }
 
-            <form method="post" action="{{ route('register') }}">
-                @csrf
-
-                <div class="input-group mb-3">
-                    <input type="text"
-                           name="name"
-                           class="form-control @error('name') is-invalid @enderror"
-                           value="{{ old('name') }}"
-                           placeholder="Full name">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-user"></span></div>
-                    </div>
-                    @error('name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-
-                <div class="input-group mb-3">
-                    <input type="email"
-                           name="email"
-                           value="{{ old('email') }}"
-                           class="form-control @error('email') is-invalid @enderror"
-                           placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
-                    </div>
-                    @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-
-                <div class="input-group mb-3">
-                    <input type="password"
-                           name="password"
-                           class="form-control @error('password') is-invalid @enderror"
-                           placeholder="Password">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
-                    </div>
-                    @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-
-                <div class="input-group mb-3">
-                    <input type="password"
-                           name="password_confirmation"
-                           class="form-control"
-                           placeholder="Retype password">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                            <label for="agreeTerms">
-                                I agree to the <a href="#">terms</a>
-                            </label>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
-                        <a class="btn btn-danger" href="{{ '/auth/redirect'}}">google</a>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-
-            <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
-        </div>
-        <!-- /.form-box -->
-    </div><!-- /.card -->
-
-    <!-- /.form-box -->
-</div>
-<!-- /.register-box -->
-
-<script src="{{ mix('js/app.js') }}" defer></script>
-
-</body>
+    function register(){
+        window.location.href = "{{ '/auth/redirect'}}";
+    }
+ 
+</script>
 </html>
