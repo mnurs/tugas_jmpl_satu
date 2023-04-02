@@ -18,7 +18,8 @@ class MailController extends Controller
     {
         $mailData = [
             'title' => 'Mail from ItSolutionStuff.com',
-            'body' => 'This is for testing email using smtp.'
+            'body' => 'This is for testing email using smtp.',
+            'id' => 1
         ];
          
         Mail::to('ipulsamudin@gmail.com')->send(new RegisterMail($mailData));
