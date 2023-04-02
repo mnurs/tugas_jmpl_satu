@@ -38,6 +38,7 @@ class AuthController extends Controller
                        'wrong_amount' => 0
                     ]);
                     Session()->forget('captcha'); 
+                    \auth()->login($user, true);
                     return redirect('home');
                 } else { 
                     if($user->wrong_amount >= 2){
@@ -137,7 +138,9 @@ class AuthController extends Controller
         Session()->forget('jmlSalah'); 
         Session()->forget('captcha'); 
         Session()->forget('username'); 
-        Session()->forget('name'); 
+        Session()->forget('name');  
+        Session::flush();
+        \Auth::logout();
         return redirect('login');
     }
 
