@@ -1,106 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }}</title>
-
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-          integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-          crossorigin="anonymous"/>
-
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
-</head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
-    </div>
-    <!-- /.login-logo -->
-
-    <!-- /.login-box-body -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-
-            <form method="post" action="{{ url('/login') }}">
-                @csrf
-
-                <div class="input-group mb-3">
-                    <input type="email"
-                           name="email"
-                           value="{{ old('email') }}"
-                           placeholder="Email"
-                           class="form-control @error('email') is-invalid @enderror">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
-                    </div>
-                    @error('email')
-                    <span class="error invalid-feedback">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="input-group mb-3">
-                    <input type="password"
-                           name="password"
-                           placeholder="Password"
-                           class="form-control @error('password') is-invalid @enderror">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                    @error('password')
-                    <span class="error invalid-feedback">{{ $message }}</span>
-                    @enderror
-
-                </div>
-
-            <div class="form-group row"> 
-                <div class="col-md-6">
-                    {!! NoCaptcha::display() !!}
-                    {!! NoCaptcha::renderJs() !!}
-                    @error('g-recaptcha-response')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Login Form | CodingLab</title> -->
+    <link rel="stylesheet" href="{{asset('css/register.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Login Form</span></div>
+        <form method="post" action="{{ url('login') }}">
+            {{ csrf_field() }}
+          <div class="row">
+            <i class="fas fa-envelope"></i>
+            <input type="email" placeholder="Email" name="email" required  oninvalid="this.setCustomValidity('Enter Email Here')" oninput="setCustomValidity('')">
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Password" name="password" required oninvalid="this.setCustomValidity('Enter Password Here')" oninput="setCustomValidity('')">
+          </div>
+          @if(Session::get('captcha'))
+              <div class="row captcha">  
+                {!! NoCaptcha::display() !!}
+                {!! NoCaptcha::renderJs() !!} 
             </div>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">Remember Me</label>
-                        </div>
-                    </div>
-
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        <a class="btn btn-danger" href="{{ '/auth/redirect'}}">google</a>
-                    </div>
-
-                </div>
-            </form>
-
-            <p class="mb-1">
-                <a href="{{ route('password.request') }}">I forgot my password</a>
-            </p>
-            <p class="mb-0">
-                <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
-            </p>
-        </div>
-        <!-- /.login-card-body -->
+          @endif
+          <div class="pass"><a href="#">Forgot password?</a></div>
+          <div class="row button">
+            <input type="submit" value="Login">
+          </div>
+          <div class="row google">
+            <input type="button" value="Google" onclick="register()">
+          </div>
+          <div class="signup-link">Not a member? <a href="{{ url('register') }}">Signup now</a></div>
+          <div class="message-link">
+                @if(isset($msg)){{$msg}}@endif 
+               @error('g-recaptcha-response')
+                <span class="text-danger" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror 
+           </div>
+        </form>
+      </div>
     </div>
 
-</div>
-<!-- /.login-box -->
-
-<script src="{{ mix('js/app.js') }}"></script>
-
-</body>
+  </body>
+  <script> 
+    function register(){
+        window.location.href = "{{ '/auth/redirect'}}";
+    } 
+</script>
 </html>
