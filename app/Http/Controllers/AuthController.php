@@ -19,16 +19,20 @@ class AuthController extends Controller
     }
 
     public function setLogin(Request $request)
-    {   
+    {    
         if(Session::get('captcha')){
             $request->validate([ 
-                'g-recaptcha-response' => 'required|captcha'
+                'g-recaptcha-response' => 'required|captcha' 
             ],
             [
-                'g-recaptcha-response.required' => "Please verify I'm not a robot" 
+                'g-recaptcha-response.required' => "Please verify I am not a robot" 
             ]);
         } 
-        $user = User::where('email', $request->email) ->first(); 
+        $request->validate([  
+            'email'=>'required',
+            'password'=>'required'
+        ]);
+        $user = User::where('email', $request->email)->first(); 
         if (!empty($user)) {
             $userV = User::where('email', $request->email)->whereNull('email_verified_at')->first(); 
             if(empty($userV)){ 
@@ -72,6 +76,12 @@ class AuthController extends Controller
 
     public function registerPost(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6'
+        ]); 
         $user = User::where('email', $request->email) ->first(); 
         if(empty($user)){
             $user = User::create([

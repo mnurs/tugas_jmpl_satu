@@ -16,19 +16,19 @@
             {{ csrf_field() }}
           <div class="row">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="FullName" name="name" required  oninvalid="this.setCustomValidity('Enter FullName Here')" oninput="setCustomValidity('')"> 
+            <input type="text" placeholder="FullName" name="name"> 
           </div>
           <div class="row">
             <i class="fas fa-envelope"></i>
-            <input type="email" placeholder="Email" name="email" required  oninvalid="this.setCustomValidity('Enter Email Here')" oninput="setCustomValidity('')">
+            <input type="email" placeholder="Email" name="email">
           </div>
           <div class="row">
             <i class="fas fa-lock"></i>
-            <input type="password" id="password" placeholder="Password" name="password" required   oninvalid="this.setCustomValidity('Enter Password Here')" oninput="setCustomValidity('')">
+            <input type="password" id="password" placeholder="Password"  name="password">
           </div>
           <div class="row">
             <i class="fas fa-lock"></i>
-            <input type="password" id="new_password" placeholder="Retype Password" name="password_confirmation" required oninvalid="this.setCustomValidity('Enter Retype Password  Here')" oninput="setCustomValidity('')">
+            <input type="password" id="new_password" placeholder="Retype Password" name="password_confirmation">
           </div> 
           <div class="row button">
             <input type="submit" value="Register">
@@ -37,26 +37,27 @@
             <input type="button" value="Google" onclick="register()">
           </div>
           <div class="signup-link"><a href="{{ url('login') }}">I already have a membership</a></div>
-          <div class="message-link">@if(isset($msg)){{$msg}}@endif</a></div>
+          <div class="message-link">
+            @if(isset($msg)){{$msg}}@endif
+             @error('name')
+            <span class="text-danger" role="alert">
+                <strong>{{ $message }}</strong><br>
+            </span>
+            @enderror 
+             @error('email')
+            <span class="text-danger" role="alert">
+                <strong>{{ $message }}</strong><br>
+            </span>
+            @enderror 
+             @error('password')
+            <span class="text-danger" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror  
+          </div>
         </form>
       </div>
     </div>
 
-  </body>
-  <script>
-    var myPass = document.getElementById("password"); 
-    var myNewPass = document.getElementById("new_password"); 
-     
-    // When the user clicks outside of the password field, hide the message box
-    myNewPass.onblur = function() {
-        if (myPass.value != myNewPass.value) {
-            alert("Passwords are not the same");
-        } 
-    }
-
-    function register(){
-        window.location.href = "{{ '/auth/redirect'}}";
-    }
- 
-</script>
+  </body> 
 </html>

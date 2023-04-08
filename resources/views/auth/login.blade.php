@@ -16,11 +16,11 @@
             {{ csrf_field() }}
           <div class="row">
             <i class="fas fa-envelope"></i>
-            <input type="email" placeholder="Email" name="email" required  oninvalid="this.setCustomValidity('Enter Email Here')" oninput="setCustomValidity('')">
+            <input type="email" placeholder="Email" name="email">
           </div>
           <div class="row">
             <i class="fas fa-lock"></i>
-            <input type="password" id="password" placeholder="Password" name="password" required oninvalid="this.setCustomValidity('Enter Password Here')" oninput="setCustomValidity('')">
+            <input type="password" id="password" placeholder="Password" name="password">
           </div>
           @if(Session::get('captcha'))
               <div class="row captcha">  
@@ -39,6 +39,16 @@
           <div class="message-link">
                 @if(isset($msg)){{$msg}}@endif 
                @error('g-recaptcha-response')
+                <span class="text-danger" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror 
+               @error('email')
+                <span class="text-danger" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror 
+               @error('password')
                 <span class="text-danger" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
