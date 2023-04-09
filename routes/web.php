@@ -13,9 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// 2fa middleware
+Route::middleware(['2fa'])->group(function () {
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // HomeController
+    
+	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+    Route::post('/2fa', function () {
+        return redirect(route('home'));
+    })->name('2fa');
+
+});
+ 
 
 // Auth::routes();
 
@@ -24,6 +35,7 @@ Route::get('/konfirmasi/{id}', 'App\Http\Controllers\AuthController@verifikasiFo
 Route::get('/info_verify/{id}', 'App\Http\Controllers\AuthController@infoVerifikasiForm');
 Route::post('/resend_verify', 'App\Http\Controllers\AuthController@resendVerifikasiForm'); 
 
+Route::get('/', 'App\Http\Controllers\AuthController@getLogin');
 Route::get('/login', 'App\Http\Controllers\AuthController@getLogin');
 Route::post('/login', 'App\Http\Controllers\AuthController@setLogin');
 Route::get('/register', 'App\Http\Controllers\AuthController@register');

@@ -12,7 +12,8 @@ use Mail;
 use Session;
 
 class AuthController extends Controller
-{
+{ 
+
     public function getLogin()
     {
         return view('auth.login');
@@ -87,7 +88,7 @@ class AuthController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' =>$request->email,
-                'password' => Hash::make($request->password),
+                'password' => Hash::make($request->password)
             ]);
             $mailData = [ 
                 'id' => $user->id
@@ -136,11 +137,25 @@ class AuthController extends Controller
         if(empty($userV)){
             return view('auth.done_verify');
         }else{
+
+            $google2fa = app('pragmarx.google2fa');
+ 
+            $google2fa_secret = $google2fa->generateSecretKey();
+
+            $QR_Image = $google2fa->getQRCodeInline(
+                config('app.name'),
+                $userV->email,
+                $google2fa_secret
+            ); 
+
             $user = User::where('id', $request->id)->
                 update([
-                   'email_verified_at' => date('Y-m-d')
+                   'email_verified_at' => date('Y-m-d'),
+                   'google2fa_secret'=>$google2fa_secret
                 ]); 
-            return view('auth.success_verify');
+            
+            return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $google2fa_secret]);
+            // return view('auth.success_verify');
         }
     }
     public function getLogout()
@@ -182,16 +197,28 @@ class AuthController extends Controller
                 return redirect()->route('home');
             }else{
 
+                $google2fa = app('pragmarx.google2fa');
+ 
+                $google2fa_secret = $google2fa->generateSecretKey();
+
+                $QR_Image = $google2fa->getQRCodeInline(
+                    config('app.name'),
+                    $user_google->getEmail(),
+                    $google2fa_secret
+                );  
+                
                 $create = User::Create([
                     'email'             => $user_google->getEmail(),
                     'name'              => $user_google->getName(),
                     'password'          => 0,
-                    'email_verified_at' => date('Y-m-d')
+                    'email_verified_at' => date('Y-m-d'),
+                    'google2fa_secret'=>$google2fa_secret
                 ]);
         
                 
                 \auth()->login($create, true);
-                return redirect()->route('home');
+                return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $google2fa_secret]);
+                // return redirect()->route('home');
             }
 
         } catch (\Exception $e) {

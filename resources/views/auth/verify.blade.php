@@ -12,9 +12,9 @@
     <div class="container">
       <div class="wrapper">
         <div class="title"><center>Verify Your <br> Email Address</center></div>
-        <form action="{{url('verifikasi')}}" id="resend-form"  method="POST" >
-            @csrf
+        <form action="{{url('verifikasi')}}" id="resend-form"  method="POST" > 
           <div class="row">
+            @csrf
             <p>Before proceeding, please check your email for a verification link.If you did not receive the email,</p>
           </div>  
           <div class="row"> 

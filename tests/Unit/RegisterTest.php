@@ -135,7 +135,7 @@ class RegisterTest extends TestCase
         $response = $this->post(url('verifikasi'), [ 
             'id'=>$user->id
         ]);  
-        $response->assertViewIs('auth.success_verify');
+        $response->assertViewIs('google2fa.register');
         User::where('email', $nama.'@gmail.com')->delete(); 
     }
 
@@ -170,7 +170,7 @@ class RegisterTest extends TestCase
             ->andReturn($provider);
 
         $response = $this->get(url('/auth/callback'));  
-        $response->assertRedirect('home');
+        $response->assertViewIs('google2fa.register');
         User::where('email', $nama.'@gmail.com')->delete(); 
     }
 }

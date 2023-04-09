@@ -59,5 +59,10 @@
       </div>
     </div>
 
+  <script> 
+      function register(){
+          window.location.href = "{{ '/auth/redirect'}}";
+      } 
+  </script>
   </body> 
 </html>
