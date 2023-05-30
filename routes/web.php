@@ -46,6 +46,7 @@ Route::get('/logout', 'App\Http\Controllers\AuthController@getLogout');
 Route::get('send-mail', [App\Http\Controllers\MailController::class, 'index']);
 
 
+Route::get('/login_no_safety', 'App\Http\Controllers\AuthNoSafetyController@getLoginData');
 Route::get('/login_not_safety', 'App\Http\Controllers\AuthNoSafetyController@getLogin');
 Route::post('/login_not_safety', 'App\Http\Controllers\AuthNoSafetyController@setLogin');
 Route::get('/register_not_safety', 'App\Http\Controllers\AuthNoSafetyController@register');
