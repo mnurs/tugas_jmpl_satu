@@ -44,3 +44,9 @@ Route::get('/auth/redirect', 'App\Http\Controllers\AuthController@redirectToProv
 Route::get('/auth/callback', 'App\Http\Controllers\AuthController@handleProviderCallback');
 Route::get('/logout', 'App\Http\Controllers\AuthController@getLogout');
 Route::get('send-mail', [App\Http\Controllers\MailController::class, 'index']);
+
+
+Route::get('/login_not_safety', 'App\Http\Controllers\AuthNoSafetyController@getLogin');
+Route::post('/login_not_safety', 'App\Http\Controllers\AuthNoSafetyController@setLogin');
+Route::get('/register_not_safety', 'App\Http\Controllers\AuthNoSafetyController@register');
+Route::post('/register_not_safety', 'App\Http\Controllers\AuthNoSafetyController@registerPost');
