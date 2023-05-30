@@ -16,7 +16,7 @@
             {{ csrf_field() }}
           <div class="row">
             <i class="fas fa-envelope"></i>
-            <input type="email" placeholder="Email" name="email">
+            <input type="text" placeholder="Email" name="email">
           </div>
           <div class="row">
             <i class="fas fa-lock"></i>
