@@ -12,7 +12,7 @@
     <div class="container">
       <div class="wrapper">
         <div class="title"><span>Login Form</span></div>
-        <form method="post" action="{{ url('login_not_safety') }}">
+        <form name="login" method="post" action="{{ url('login_not_safety') }}">
             {{ csrf_field() }}
           <div class="row">
             <i class="fas fa-envelope"></i>

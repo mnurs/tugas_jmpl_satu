@@ -12,7 +12,7 @@
     <div class="container">
       <div class="wrapper">
         <div class="title"><span>Register Form</span></div>
-        <form method="post" action="{{ url('register_not_safety') }}">
+        <form name="register" method="post" action="{{ url('register_not_safety') }}">
             {{ csrf_field() }}
           <div class="row">
             <i class="fas fa-user"></i>
