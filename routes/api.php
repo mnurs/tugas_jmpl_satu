@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/login_no_safety_post', 'App\Http\Controllers\API\AuthNoSafetyAPIController@getLoginData');
+Route::get('/login_no_safety', 'App\Http\Controllers\API\AuthNoSafetyAPIController@getLoginData');

@@ -27,23 +27,6 @@ class AuthNoSafetyController extends Controller
         return view('auth_not_safety.login');
     }
 
-    public function getLoginData(Request $request)
-    {    
-        $user = DB::select("SELECT * FROM users WHERE email ='".$request->email."' AND password='".$request->password."'");
-        if(empty($user)){
-             return [
-                "status" => false,
-                "message" => "Username or Password salah"
-             ];
-        }else{
-              return [
-                "status" => true,
-                "data" => $user,
-                "message" => "Data berhasil didapat"
-             ];
-        }
-    }
-
     public function setLogin(Request $request)
     {    
         $user = DB::select("SELECT * FROM users WHERE email ='".$request->email."' AND password='".$request->password."'");
