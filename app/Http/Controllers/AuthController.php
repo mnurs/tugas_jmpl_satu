@@ -10,6 +10,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Mail\RegisterMail;
 use Mail;
 use Session;
+use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 { 
@@ -88,14 +89,16 @@ class AuthController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' =>$request->email,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'email_verified_at' => Carbon::now()
             ]);
             $mailData = [ 
                 'id' => $user->id
             ];
              
-            Mail::to($request->email)->send(new RegisterMail($mailData));
-            return redirect('info_verify/'.$user->id);
+            // Mail::to($request->email)->send(new RegisterMail($mailData));
+            // return redirect('info_verify/'.$user->id);
+            return view('auth.register')->with('msg', 'Success Registered');
         }else{
             $userV = User::where('email', $request->email)->whereNull('email_verified_at')->first(); 
             if(empty($userV)){ 
@@ -120,7 +123,7 @@ class AuthController extends Controller
             'id' => $user->id
         ];
          
-        Mail::to($user->email)->send(new RegisterMail($mailData));
+        // Mail::to($user->email)->send(new RegisterMail($mailData));
          return redirect('info_verify/'.$user->id);
     }
 
